@@ -1,32 +1,43 @@
 const Promise = require('bluebird')
 const fs = Promise.promisifyAll(require('fs-extra'))
 const path = require('path')
-// const _ = require('lodash/fp')
+const _ = require('lodash/fp')
 const Jimp = require('jimp')
 const LOGGER = require('log4js').getLogger('image-displayer.js')
 const imageToString = require('./image-to-string.js')
 const terminalSizeMonitor = require('./terminal-size-monitor.js')
 
-module.exports = frameRate => directory => {
+module.exports = frameRate => directories => {
   const msPerFrame = 1 / frameRate * 1000
   var frameFileList = []
 
   const frameListUpdateTask = setInterval(() => {
-    fs.readdirAsync(directory).then(fileList => {
+    fs.readdirAsync(directories.images).then(fileList => {
       frameFileList = fileList.sort()
     })
   }, msPerFrame)
-  var displayedFrame = 0
+  var displayedFrame = -1
   const frameDisplayTask = setInterval(() => {
     if (frameFileList.length == 0)
-			{ return }
+      return
     if (displayedFrame == frameFileList.length - 1)
-			{ return }
-    const fileToDisplay = path.join(directory, frameFileList[displayedFrame++])
+      return
+    //only start audio when we have the video to start
+    beginAudioPlayback(directories.audio)
+    const fileToDisplay = path.join(directories.images, frameFileList[++displayedFrame])
     Jimp.read(fileToDisplay).then(function (frame) {
       console.log(imageToString(frame.bitmap, terminalSizeMonitor.getTerminalSize()))
     })
   }, msPerFrame)
 
-  LOGGER.info('img dir:' + directory)
+  const beginAudioPlayback = _.once((directory) => {
+    childProcess.spawn('aplay', [
+      'audio.wav'
+    ], {
+      cwd: directory
+      , stdio: 'inherit'
+    })//*/
+  })
+
+  LOGGER.info('img dir:' + directories.images)
 }

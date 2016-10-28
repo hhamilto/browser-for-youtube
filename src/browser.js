@@ -5,7 +5,7 @@ const urlViewer = require('./url-viewer.js')
 
 console.log(fs.readFileSync(path.join(__dirname, '..', 'banner-texts', '120col.txt')).toString())
 
-if (false && true) {
+if (false) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
@@ -15,5 +15,6 @@ if (false && true) {
     urlViewer(answer)
     rl.close()
   })
-} else
-  { urlViewer('https://www.youtube.com/watch?v=d9TpRfDdyU0') }
+} else { 
+  urlViewer('https://www.youtube.com/watch?v=d9TpRfDdyU0')
+}

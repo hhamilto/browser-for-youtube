@@ -66,11 +66,11 @@ const startPlayer = url => {
     url,
     FRAME_RATE
   ], {
-    silent: true
+    //silent: true
   })
   downloader.on('message', message => {
-    if (message.type == 'images-directory') {
-      player(FRAME_RATE)(message.directory)
+    if (message.type == 'directory-info') {
+      player(FRAME_RATE)(message.directories)
     } else {
       throw new Error('Unrecognized message type from cp')
     }
