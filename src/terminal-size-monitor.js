@@ -20,8 +20,9 @@ const terminalSizeUpdateTask = setInterval(() => {
   })
   streamToString(resizeProcess.stdout)
   .then(output => {
-    if(output == '')
+    if(output == ''){
       return //ignore it (happens if user is typing sometimes)
+    }
     var lines = output.split('\n')
     if(lines.length != 4)
       throw new Error('unexpected output: ' + output)

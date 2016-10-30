@@ -59,7 +59,7 @@ module.exports = url => {
 
 childProcess = require('child_process')
 
-const FRAME_RATE = 2 // in fps. Gotta name that better...
+const FRAME_RATE = 20 // in fps. Gotta name that better...
 
 const startPlayer = url => {
   const downloader = childProcess.fork(path.join(__dirname, 'video-fetcher.js'), [

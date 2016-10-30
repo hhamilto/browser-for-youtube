@@ -18,15 +18,22 @@ module.exports = frameRate => directories => {
   }, msPerFrame)
   var displayedFrame = -1
   const frameDisplayTask = setInterval(() => {
+
     if (frameFileList.length == 0)
       return
     if (displayedFrame == frameFileList.length - 1)
       return
     //only start audio when we have the video to start
-    beginAudioPlayback(directories.audio)
     const fileToDisplay = path.join(directories.images, frameFileList[++displayedFrame])
     Jimp.read(fileToDisplay).then(function (frame) {
-      console.log(imageToString(frame.bitmap, terminalSizeMonitor.getTerminalSize()))
+
+      var start = Date.now()
+      var toDisplay = imageToString(frame.bitmap, terminalSizeMonitor.getTerminalSize())
+      console.log(toDisplay)
+      var end = Date.now()
+      console.log(end-start)
+
+      beginAudioPlayback(directories.audio)
     })
   }, msPerFrame)
 
