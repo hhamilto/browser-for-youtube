@@ -5,7 +5,7 @@ const urlViewer = require('./url-viewer.js')
 
 console.log(fs.readFileSync(path.join(__dirname, '..', 'banner-texts', '120col.txt')).toString())
 
-if (false) {
+if (true) {
   const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
